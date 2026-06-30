@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phần 1 - Trả lời Lý thuyết</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#fff5fa;
+    color:#333;
+    line-height:1.8;
+}
+
+header{
+    background:#ff1493;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+h2{
+    color:#ff1493;
+    margin:25px 0 15px;
+}
+
+pre{
+    background:#f4f4f4;
+    padding:15px;
+    border-radius:8px;
+    overflow:auto;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:30px;
+    padding:12px 25px;
+    background:#ff1493;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>PHẦN 1 - TRẢ LỜI LÝ THUYẾT</h1>
+</header>
+
+<div class="container">
+
+<h2>Câu 1. Position: relative và position: absolute</h2>
+
+<p><b>position: relative</b> giữ phần tử ở vị trí ban đầu nhưng có thể dịch chuyển bằng top, left, right, bottom. Phần tử vẫn chiếm không gian trong bố cục.</p>
+
+<p><b>position: absolute</b> đưa phần tử ra khỏi luồng tài liệu và định vị theo phần tử cha gần nhất có position khác static.</p>
+
+<b>Ví dụ:</b>
+
+<pre>
+.parent{
+    position:relative;
+}
+
+.child{
+    position:absolute;
+    top:10px;
+    right:10px;
+}
+</pre>
+
+<p><b>Ứng dụng:</b> Relative dùng để làm phần tử cha, Absolute dùng cho icon, badge, nút nổi hoặc thông báo.</p>
+
+<p><b>Khi deploy:</b> Không nên lạm dụng absolute vì dễ bị lệch trên nhiều kích thước màn hình. Nên kết hợp Flexbox hoặc Grid để website responsive.</p>
+
+<hr>
+
+<h2>Câu 2. Domain - Hosting - DNS</h2>
+
+<p><b>Quy trình:</b></p>
+
+<ol>
+<li>Đăng ký tên miền (Domain).</li>
+<li>Mua hoặc sử dụng Hosting.</li>
+<li>Upload mã nguồn website.</li>
+<li>Cấu hình DNS trỏ Domain về Hosting.</li>
+<li>Kiểm tra website hoạt động.</li>
+</ol>
+
+<p><b>DNS</b> có nhiệm vụ chuyển tên miền thành địa chỉ IP của máy chủ.</p>
+
+<p><b>Công cụ deploy miễn phí:</b></p>
+
+<ul>
+<li>GitHub Pages</li>
+<li>Netlify</li>
+</ul>
+
+<p><b>Rủi ro bảo mật:</b></p>
+
+<ul>
+<li>Cấu hình DNS sai làm website không truy cập được.</li>
+<li>Không bật HTTPS khiến dữ liệu dễ bị đánh cắp.</li>
+<li>Phân quyền sai có thể làm lộ mã nguồn.</li>
+</ul>
+
+<hr>
+
+<h2>Câu 3. So sánh let, const và var</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+<tr>
+<th>Kiểu</th>
+<th>Scope</th>
+<th>Hoisting</th>
+</tr>
+
+<tr>
+<td>var</td>
+<td>Function Scope</td>
+<td>Được hoisting và có giá trị undefined</td>
+</tr>
+
+<tr>
+<td>let</td>
+<td>Block Scope</td>
+<td>Hoisting nhưng không được dùng trước khi khai báo</td>
+</tr>
+
+<tr>
+<td>const</td>
+<td>Block Scope</td>
+<td>Không được gán lại giá trị</td>
+</tr>
+
+</table>
+
+<p><b>Ví dụ lỗi:</b></p>
+
+<pre>
+console.log(a);
+
+let a = 10;
+</pre>
+
+<p>Kết quả:</p>
+
+<pre>
+ReferenceError
+</pre>
+
+<p><b>Debug:</b> Mở Chrome DevTools (F12) → Console để xem lỗi hoặc dùng Breakpoint trong tab Sources để kiểm tra giá trị biến.</p>
+
+<hr>
+
+<h2>Câu 4. Event Delegation</h2>
+
+<p>Event Delegation là kỹ thuật gắn một Event Listener vào phần tử cha để xử lý sự kiện của các phần tử con thông qua cơ chế nổi bọt (Event Bubbling).</p>
+
+<p><b>Ví dụ:</b></p>
+
+<pre>
+document.getElementById("list")
+.addEventListener("click",function(e){
+
+if(e.target.tagName==="LI"){
+alert(e.target.innerText);
+}
+
+});
+</pre>
+
+<p><b>Ứng dụng:</b></p>
+
+<ul>
+<li>Danh sách sản phẩm.</li>
+<li>Danh sách công việc (Todo List).</li>
+<li>Bảng dữ liệu động.</li>
+</ul>
+
+<p><b>Lợi ích:</b></p>
+
+<ul>
+<li>Ít Event Listener hơn.</li>
+<li>Tăng hiệu suất.</li>
+<li>Hoạt động với phần tử được thêm động bằng JavaScript.</li>
+</ul>
+
+<a href="index.html" class="btn">← Quay về Trang chủ</a>
+
+</div>
+
+</body>
+</html>

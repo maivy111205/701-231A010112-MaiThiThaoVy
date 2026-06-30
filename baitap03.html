@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 3 - Countdown Timer</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#fff5fa;
+    text-align:center;
+    padding:50px;
+}
+
+h1{
+    color:#ff1493;
+    margin-bottom:30px;
+}
+
+#timer{
+    font-size:70px;
+    font-weight:bold;
+    color:#ff1493;
+    margin:40px 0;
+}
+
+.warning{
+    animation:blink .8s infinite;
+}
+
+@keyframes blink{
+    0%{opacity:1;}
+    50%{opacity:.3;}
+    100%{opacity:1;}
+}
+
+button{
+    padding:12px 25px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    background:#ff1493;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#d60072;
+}
+
+.logic{
+    width:80%;
+    margin:40px auto;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    text-align:left;
+    line-height:1.8;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Đồng Hồ Đếm Ngược 10 Phút</h1>
+
+<div id="timer">10:00</div>
+
+<button onclick="startTimer()">Bắt đầu</button>
+<button onclick="resetTimer()">Đặt lại</button>
+
+<div class="logic">
+<h2>Giải thích logic tư duy</h2>
+
+<p>• Sử dụng <b>setInterval()</b> để cập nhật thời gian mỗi giây.</p>
+
+<p>• Chuyển tổng số giây thành định dạng <b>MM:SS</b>.</p>
+
+<p>• Khi còn dưới 1 phút, thêm class <b>warning</b> để tạo hiệu ứng nhấp nháy.</p>
+
+<p>• Khi hết giờ, dùng <b>clearInterval()</b> để dừng interval, tránh memory leak và hiển thị thông báo.</p>
+
+<p>• Khi deploy thực tế, nếu cần đồng bộ nhiều người dùng, nên lấy thời gian từ server thay vì chỉ dùng đồng hồ trên trình duyệt.</p>
+</div>
+
+<script>
+
+let totalTime = 600; // 10 phút
+let interval = null;
+
+function updateTimer(){
+
+    let minute = Math.floor(totalTime / 60);
+    let second = totalTime % 60;
+
+    minute = String(minute).padStart(2,"0");
+    second = String(second).padStart(2,"0");
+
+    document.getElementById("timer").innerHTML =
+        minute + ":" + second;
+
+    if(totalTime <= 60){
+        document.getElementById("timer").classList.add("warning");
+    }
+
+    if(totalTime <= 0){
+
+        clearInterval(interval);
+
+        alert("⏰ Hết thời gian!");
+
+        return;
+    }
+
+    totalTime--;
+
+}
+
+function startTimer(){
+
+    if(interval !== null){
+        return;
+    }
+
+    updateTimer();
+
+    interval = setInterval(updateTimer,1000);
+
+}
+
+function resetTimer(){
+
+    clearInterval(interval);
+
+    interval = null;
+
+    totalTime = 600;
+
+    document.getElementById("timer").classList.remove("warning");
+
+    document.getElementById("timer").innerHTML = "10:00";
+
+}
+
+</script>
+
+</body>
+</html>
